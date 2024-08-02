@@ -1,53 +1,49 @@
-import { createSlice ,current} from "@reduxjs/toolkit";
-const initialState= {
-  products: [],
-  quantity: 0,
-  total: 0,
-}
-export const cartSlice = createSlice({
+
+import { createSlice } from "@reduxjs/toolkit";
+
+const cartSlice = createSlice({
   name: "cart",
-  initialState,
+  initialState: {
+    products: [],
+    quantity: 0,
+    total: 0,
+  },
   reducers: {
     addProduct: (state, action) => {
-      // state.quantity += 1;
-      // state.products.push(action.payload);
-      // console.log('Current state:', state);
-      // console.log('Action payload:', action.payload);
-      // state.total += action.payload.price * action.payload.quantity;
-      console.log(current(state))
-      const product = action.payload;
-      console.log(product);
-      if (product && product.price && product.quantity) {
-        console.log(state)
-        console.log(state.quantity)
-        const existingProduct = state.products.find(p => p._id === product._id);
-        console.log(existingProduct)
-        if (existingProduct) {
-          existingProduct.quantity += product.quantity;
-          state.total += product.price * product.quantity;
-        } else {
-          state.products.push(product);
-          state.quantity += 1;
-          state.total += product.price * product.quantity;
-        }
-        console.log(current(state))
-      } else {
-        console.error("Invalid product payload", action.payload);
-      }
-    },
-    removeProduct : (state,action) =>{
-      const productId = action.payload;
-      const existingProduct = state.products.find(product => product.id === productId);
+      console.log("State before adding product:", state);
+      console.log("Action payload:", action.payload);
 
-      if (existingProduct) {
-        state.quantity -= existingProduct.quantity;
-        state.total -= existingProduct.price * existingProduct.quantity;
-        state.products = state.products.filter(product => product.id !== productId);
+      if (!Array.isArray(state.products)) {
+        console.error("Products array is not initialized correctly.");
+        state.products = [];
       }
-      // state.products =  state.products.filter((item) => item.id !== action.payload);
-    }
+
+      state.quantity += 1;
+      state.products.push(action.payload);
+
+      if (action.payload.price && action.payload.quantity) {
+        state.total += action.payload.price * action.payload.quantity;
+      } else {
+        console.error("Invalid product payload:", action.payload);
+      }
+
+      console.log("State after adding product:", state);
+    },
+    removeProduct: (state, action) => {
+      const index = state.products.findIndex(
+        product => product.id === action.payload.id && product.color === action.payload.color && product.size === action.payload.size
+      );
+      console.log("Found index:", index);
+      if (index !== -1) {
+        state.quantity -= 1;
+        state.total -= state.products[index].price * state.products[index].quantity;
+        state.products.splice(index, 1);
+      }
+      console.log("Updated state products:", state.products);
+      
+    },
   },
 });
- 
-export const {addProduct,removeProduct}  = cartSlice.actions;
-export default cartSlice.reducer; 
+
+export const { addProduct , removeProduct} = cartSlice.actions;
+export default cartSlice.reducer;

@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { publicRequest } from "../requestMethods";
 import { useDispatch } from "react-redux";
 import { addProduct } from "../redux/cartRedux";
+// import { addItemsToCart } from "../actions/cartActions";
 
 const Container = styled.div``;
 
@@ -152,13 +153,17 @@ const Product = () => {
   }
   
 
-  const handleClick = () =>{
-    //update cart 
-    console.log({ ...product, quantity:quantity, color:color, size:size });
-    dispatch(
-      addProduct({ ...product, quantity:quantity, color:color, size:size })
-    );
-  }
+  // const handleClick = (product , quantity) =>{
+  //   //update cart 
+  //   console.log({ ...product, quantity:quantity, color:color, size:size });
+  //   dispatch(addProduct({...product , quantity}));
+  // }
+
+  const handleClick = () => {
+    const payload = { ...product, quantity, color, size };
+    console.log("Dispatching addProduct with payload:", payload);
+    dispatch(addProduct(payload));
+  };
   
   return (
     <Container>
@@ -196,7 +201,9 @@ const Product = () => {
               <Amount>{quantity}</Amount>
               <Add onClick= {()=>handleQuantity("inc")}/>
             </AmountContainer>
-            <Button onClick={handleClick}>ADD TO CART</Button>
+            <Button onClick={
+                        handleClick
+                      }>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

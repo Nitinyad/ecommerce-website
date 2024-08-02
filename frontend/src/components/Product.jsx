@@ -110,7 +110,7 @@ import { publicRequest } from "../requestMethods";
         <Image src={item.img} />
         <Info>
           <Icon>
-            <Link to={`/products/${item._id}`} onClick={handleSearch} style={{color : "black"}}>
+            <Link to={`/product/${item._id}`} onClick={handleSearch} style={{color : "black"}}>
             <ShoppingCartOutlined />
             </Link>
           </Icon>

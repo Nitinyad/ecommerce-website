@@ -98,8 +98,8 @@ const Navbar = () => {
   // console.log(quantity) {user ? user.currentUser.username : "REGISTER"}
   const logoutHandler = (e) =>{
     dispatch(signOut());
+    navigate('/login');
     persistor.purge();
-    navigate('/login')
   }
  
 
@@ -107,7 +107,7 @@ const Navbar = () => {
     <Container> 
       <Wrapper>
         <Left>
-          <Language>EN</Language>
+          <Language>IN</Language>
           <Link to="/search">
           <SearchContainer> 
             {/* <Input placeholder="Search" /> */}

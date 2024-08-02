@@ -1,16 +1,18 @@
+
 import { Add, Remove } from "@material-ui/icons";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
-import { useDispatch, useSelector } from "react-redux";
-import StripeCheckout from 'react-stripe-checkout'
-import { useState } from "react";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import StripeCheckout from "react-stripe-checkout";
+import { useEffect, useState } from "react";
 import { userRequest } from "../requestMethods";
-import {removeProduct} from "../redux/cartRedux"
+
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import {  removeProduct } from '../redux/cartRedux';
 
 // const KEY = process.env.REACT_APP_STRIPE;
 const KEY = "pk_test_51PUKIfKnayKXw2WrieUfvRqB6duODF8OgfWcVGtIcSj6FdiAQahlkrsrtNNUcBqTpxnYbCZHu4rxenLvCx9csCA900YfTSIl4t"
@@ -57,7 +59,6 @@ const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
   ${mobile({ flexDirection: "column" })}
-
 `;
 
 const Info = styled.div`
@@ -164,41 +165,36 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const cart = useSelector(state => state.cart)
-  console.log(cart)
-  const [stripeToken , setStripeToken] = useState(null)
-  const [quantity , setQuantity] = useState(1)
-  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+  const [stripeToken, setStripeToken] = useState(null);
   const navigate = useNavigate()
-  const onToken = (token)=>{
-    setStripeToken(token)
-  }
-  
-  useEffect(()=>{
-    const makeRequest = async () =>{
+  const dispatch = useDispatch();
+
+  const onToken = (token) => {
+    setStripeToken(token);
+  };
+
+  useEffect(() => {
+    const makeRequest = async () => {
       try {
-        const res = await userRequest.post('/checkout/payment' ,{
-          tokenId : stripeToken.id ,
-          amount : cart.total*100,
-        })
+        const res = await userRequest.post("/checkout/payment", {
+          tokenId: stripeToken.id,
+          amount: 500,
+        });
         navigate('/success' , {
           
-            stripeData : res.data,
-            products : cart ,
-          
-        })
-      } catch (error) {
-        
-      }
-    }
-    stripeToken && makeRequest()
-  },[stripeToken,cart.total ,cart, navigate])
+                      stripeData : res.data,
+                      products : cart ,
+                    
+                  })
+      } catch {}
+    };
+    stripeToken && makeRequest();
+  }, [stripeToken, cart.total, cart , navigate]);
 
-  const handleClickRemove = (productId) =>{
-    dispatch(
-      removeProduct(productId)
-    );
-  }
+  const handleRemoveClick = (productToRemove) => {
+    dispatch(removeProduct(productToRemove));
+  };
 
   return (
     <Container>
@@ -216,38 +212,40 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            {cart.products && cart.products.length > 0 ? (cart.products.map(product => (
-              <Product key={product._id}>
-              <ProductDetail>
-                <Image src={product.img} />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> {product.title}
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> {product._id}
-                  </ProductId>
-                  <ProductColor color={product.color} />
-                  <ProductSize>
-                    <b>Size:</b> {product.size}
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Remove onClick= {()=>handleClickRemove()}/>
-                  <ProductAmount>{product.quantity}</ProductAmount>
-                  <Add/>
-                </ProductAmountContainer>
-                <ProductPrice>$ {product.price * product.quantity}</ProductPrice>
-              </PriceDetail>
-              <button onClick={() => handleClickRemove(product._id)}>Remove from Cart</button>
-            </Product>
-            ))):(
-              <div>Your cart is empty</div>
-            )}
+            {cart.products.map((product,index) => (
+              <Product>
+                <ProductDetail>
+                  <Image src={product.img} />
+                  <Details>
+                    <ProductName>
+                      <b>Product:</b> {product.title}
+                    </ProductName>
+                    <ProductId>
+                      <b>ID:</b> {product._id}
+                    </ProductId>
+                    <ProductColor color={product.color} />
+                    <ProductSize>
+                      <b>Size:</b> {product.size}
+                    </ProductSize>
+                  </Details>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <Add />
+                    <ProductAmount>{product.quantity}</ProductAmount>
+                    <Remove/>
+                  </ProductAmountContainer>
+                  <li key={index}>
+
+                  <button  onClick={() => handleRemoveClick(product)}>Remove</button>
+                  </li>
+                  <ProductPrice>
+                    $ {product.price * product.quantity}
+                  </ProductPrice>
+                </PriceDetail>
+              </Product>
+            ))}
             <Hr />
-            
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
@@ -267,18 +265,18 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <StripeCheckout name="Ecommerce Shop" image="https://nitinyad.github.io/portfolio-website/static/media/HeroImage.914a793058e06e8395a3.jpg"
-            billingAddress
-            shippingAddress
-            description={`Your total is $${cart.total}`}
-            amount={cart.total*100}
-            token={onToken}
-            stripeKey={KEY}
+            <StripeCheckout
+              name="Lama Shop"
+              image="https://avatars.githubusercontent.com/u/1486366?v=4"
+              billingAddress
+              shippingAddress
+              description={`Your total is $${cart.total}`}
+              amount={cart.total * 100}
+              token={onToken}
+              stripeKey={KEY}
             >
-        <Button>
-            CHECKOUT NOW
-        </Button>
-        </StripeCheckout>
+              <Button>CHECKOUT NOW</Button>
+            </StripeCheckout>
           </Summary>
         </Bottom>
       </Wrapper>

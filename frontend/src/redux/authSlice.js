@@ -18,10 +18,15 @@ const logSlice = createSlice({
     // }
     reducers: {
         logout: (state,action) => {
+          state.currentUser = null;
+          state.user = null;
+          state.isLoggedIn = false
+          state = undefined
           localStorage.removeItem(userToken) // deletes token from storage
           // state._persist.PERSIST = false;
           // state._persist.rehydrated = false
-          state.currentUser = action.payload
+          localStorage.clear();
+          // state.currentUser = action.payload
         },
     }
 })
