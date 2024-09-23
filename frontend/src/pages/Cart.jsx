@@ -13,6 +13,7 @@ import { userRequest } from "../requestMethods";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import {  removeProduct } from '../redux/cartRedux';
+import toast from "react-hot-toast";
 
 // const KEY = process.env.REACT_APP_STRIPE;
 const KEY = "pk_test_51PUKIfKnayKXw2WrieUfvRqB6duODF8OgfWcVGtIcSj6FdiAQahlkrsrtNNUcBqTpxnYbCZHu4rxenLvCx9csCA900YfTSIl4t"
@@ -179,13 +180,11 @@ const Cart = () => {
       try {
         const res = await userRequest.post("/checkout/payment", {
           tokenId: stripeToken.id,
-          amount: 500,
+          amount: cart.total *100,
         });
         navigate('/success' , {
-          
                       stripeData : res.data,
                       products : cart ,
-                    
                   })
       } catch {}
     };
@@ -194,6 +193,7 @@ const Cart = () => {
 
   const handleRemoveClick = (productToRemove) => {
     dispatch(removeProduct(productToRemove));
+    toast.success("Removed from cart")
   };
 
   return (
@@ -213,7 +213,7 @@ const Cart = () => {
         <Bottom>
           <Info>
             {cart.products.map((product,index) => (
-              <Product>
+              <Product key={product.id}>
                 <ProductDetail>
                   <Image src={product.img} />
                   <Details>
@@ -235,10 +235,9 @@ const Cart = () => {
                     <ProductAmount>{product.quantity}</ProductAmount>
                     <Remove/>
                   </ProductAmountContainer>
-                  <li key={index}>
-
-                  <button  onClick={() => handleRemoveClick(product)}>Remove</button>
-                  </li>
+                
+                  <Button  onClick={() => handleRemoveClick(product)}>Remove</Button>
+                
                   <ProductPrice>
                     $ {product.price * product.quantity}
                   </ProductPrice>
@@ -266,8 +265,8 @@ const Cart = () => {
               <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <StripeCheckout
-              name="Lama Shop"
-              image="https://avatars.githubusercontent.com/u/1486366?v=4"
+              name="Ecommerce Shop" 
+              image="https://nitinyad.github.io/portfolio-website/static/media/HeroImage.914a793058e06e8395a3.jpg"
               billingAddress
               shippingAddress
               description={`Your total is $${cart.total}`}

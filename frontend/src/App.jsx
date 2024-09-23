@@ -14,6 +14,9 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import Search from './pages/Search'
+import CompareProduct from "./pages/CompareProduct"
+
+import { Toaster } from 'react-hot-toast';
   //router -- routes -- route (path element navigate)
 const App = () =>{ 
   // const [user,setUser ] = useState(null);
@@ -43,6 +46,19 @@ const App = () =>{
   
   console.log(user)
   return (
+    <>
+    <div>
+    <Toaster
+          position='top-center'
+          toastOptions={{
+            success:{
+              theme:{
+                primary: "#4aed88"
+              }
+            }
+          }}
+        ></Toaster>
+    </div>
     <Router>
       <Routes>
         <Route exact path="/" element={<Home style={{overflow:"hidden" }}/>}/>
@@ -53,8 +69,10 @@ const App = () =>{
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login/>}/>
         <Route path="/register" element={user ? <Navigate to="/"/> : <Register/>}/>
         <Route path="/search" element={<Search/>}/>
+        <Route path="/product/compare" element={<CompareProduct/>}/>
       </Routes>
     </Router>
+    </>
   )
 }
 export default App

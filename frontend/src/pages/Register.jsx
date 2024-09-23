@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { register } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 
 const Container = styled.div`
   width: 100vw;
@@ -65,6 +66,7 @@ const Register = () => {
   const [username , setUsername] = useState("")
   const [email , setEmail] = useState("")
   const [password , setPassword] = useState("")
+  // const { register, errors, handleSubmit } = useForm();
   const dispatch = useDispatch()
   const {isFetching , error } = useSelector((state) => state.user)
 
@@ -80,6 +82,8 @@ const Register = () => {
   const handleClick = (e) =>{
     e.preventDefault()
     register(dispatch , {username , password , email })
+
+    // dispatch(register(data));
   }
   return (
     <Container>

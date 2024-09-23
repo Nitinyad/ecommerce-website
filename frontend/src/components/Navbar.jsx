@@ -1,4 +1,4 @@
-import { Badge} from "@material-ui/core";
+import { Badge, Button} from "@material-ui/core";
 import { ExitToApp, Person, Search, ShoppingCartOutlined } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
@@ -121,9 +121,13 @@ const Navbar = () => {
           </Link>
         </Center>
         <Right>
-          <Link to="/register" style={{textDecoration:"none" , color:"black"}}>
-          <MenuItems></MenuItems>
+          <Link to="/product/compare">
+        <Button variant="outlined" style={{fontWeight:"bolder"}}>Compare</Button>
+          
           </Link>
+          {/* <Link to="/register" style={{textDecoration:"none" , color:"black"}}>
+          <MenuItems></MenuItems>
+          </Link> */}
           <Link to="/login" style={{textDecoration:"none" , color:"black"}}>
           <MenuItems>{user ? <Link to="/register"></Link> : "SIGN IN"}</MenuItems>
           </Link>

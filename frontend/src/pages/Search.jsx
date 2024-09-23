@@ -3,7 +3,19 @@ import SearchBar from "material-ui-search-bar";
 import Products from '../components/Products';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import styled from 'styled-components';
 import SearchIcon from "@mui/icons-material/Search";
+
+const Container = styled.div``;
+
+const Input = styled.input`
+  width: 90%;
+  height : 100%;
+  color: black;
+  padding-bottom: 0;
+  margin-top: 0;
+  font-weight: 500;
+`;
 
 const Search = () => {
     const loaction = useLocation();
@@ -52,9 +64,16 @@ const Search = () => {
         <input
           className="header_searchInput"
           type="text"
+          placeholder = "Search Products..."
           onChange={(e) => setKeywords(e.target.value)}
           onKeyDown={(e) => {
             e.key === "Enter" && searchSubmitHandler()
+          }}
+          style={{
+            padding :'15px',
+            margin: '15px',
+            width : '90vw',
+            outline : 'none'
           }}
         />
         <button className="search-btn" onClick={searchSubmitHandler}>

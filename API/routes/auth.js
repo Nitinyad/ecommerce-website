@@ -17,7 +17,7 @@ router.post('/register' ,async(req,res)=>{
         //we are using aysnc function bz savedUser take 
         const savedUser = await newUser.save();
         // console.log(savedUser);
-        res.status(200).json(savedUser)
+        res.status(201).json(savedUser)
     }catch(e){
         console.log(e)
         res.status(500).json(e);
@@ -33,7 +33,9 @@ router.post('/login' , async (req,res)=>{
         const user = await User.findOne({username : req.body.username}) 
 
         //if donot find any user in the database
-        !user && res.status(401).json("Wrong Credentials!")
+        if(!user){
+            return res.status(401).json("Wrong Credentials!")
+        }
 
         //then check the passward is it correct or not
         //here we are decrypting the password which we encrypt during the register time
@@ -41,7 +43,10 @@ router.post('/login' , async (req,res)=>{
         const hashedPassword = CryptoJS.AES.decrypt(user.password , process.env.PASS_SEC); // this password is hashed to we have to convert this into the string to compare
         const Originalpassword = hashedPassword.toString(CryptoJS.enc.Utf8);
 
-        Originalpassword !== req.body.password && res.status(401).json("Wrong credentials")
+        // Originalpassword !== req.body.password && res.status(401).json("Wrong credentials")
+        if(Originalpassword !== req.body.password ){
+            return res.status(401).json("Wrong credentials")
+        }
 
 
         //providing jsonwebtoken to user if user is authenticated 
@@ -54,7 +59,7 @@ router.post('/login' , async (req,res)=>{
         const {password , ...others} = user._doc;
 
         //if every thing is ok then 
-        res.status(200).json({...others,accessToken});
+        return res.status(200).json({...others,accessToken});
 
     }catch(e){
         console.log(e)

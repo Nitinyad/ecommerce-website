@@ -30,6 +30,7 @@ const userSlice = createSlice({
     },
     registerSuccess : (state , action) =>{
       state.isFetching = false;
+      state.isLoggedIn = true;
       state.currentUser = action.payload;
     },
     registerFailure : (state) =>{
@@ -38,6 +39,7 @@ const userSlice = createSlice({
     signOut: (state) => {
         state.currentUser = null;
         state.user = null;
+        localStorage.removeItem("cart");
         state.isLoggedIn = false
         state = undefined
     },

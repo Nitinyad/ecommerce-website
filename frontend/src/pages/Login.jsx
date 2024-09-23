@@ -3,6 +3,7 @@ import {mobile} from "../responsive";
 import { useState } from "react";
 import { login } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -58,7 +59,7 @@ const Button = styled.button`
   }
 `;
 
-const Link = styled.a`
+const link = styled.a`
   margin: 5px 0px;
   font-size: 12px;
   text-decoration: underline;
