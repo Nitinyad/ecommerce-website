@@ -1,18 +1,24 @@
-// import { Container } from '@material-ui/core';
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import Navbar from '../components/Navbar';
-import Announcement from "../components/Announcement";
+import Navbar from '../components/Navbar'
 import styled from 'styled-components';
 import { mobile } from '../responsive';
-import { Add, Remove } from '@material-ui/icons';
-import { removeProduct } from '../redux/cartRedux';
-import {removeCompare} from '../redux/compareSlice.js';
+import Announcement from "../components/Announcement";
+import { useDispatch, useSelector } from 'react-redux';
+import { removeFromWishlist } from '../redux/wishlist';
+import toast from 'react-hot-toast';
+
+
 
 const Container = styled.div``;
 
 const Wrapper = styled.div`
-  padding: 20px;
+    display: flex;
+    flex-direction : column;
+    align-items : center;
+    padding: 20px;
+    width : 100%;
+    height : 400px;
+    align-content : center;
   ${mobile({ padding: "10px" })}
 `;
 
@@ -55,6 +61,8 @@ const Bottom = styled.div`
 
 const Info = styled.div`
     display: flex;
+    justify-content: center;
+    
     width : 400px;
 `;
 
@@ -67,7 +75,7 @@ const Product = styled.div`
 `;
 
 const ProductDetail = styled.div`
-  flex: 2;
+    flex: 2;
   display: flex;
   flex-direction : column;
 `;
@@ -142,25 +150,25 @@ const Button = styled.button`
 `;
 
 
-const CompareProduct = () => {
-
-    const compare = useSelector((state) => state.compare);
+const Wishlist = () => {
+    const wishlist = useSelector((state) => state.wish);
+    console.log(wishlist.quantity)
     const dispatch = useDispatch();
 
-    const handleRemoveClick = (ProductId) => {
-        console.log("Dispatching removeFromCompare with product ID:", ProductId);
-        dispatch(removeCompare({id : ProductId}));
-      };
-
+    const handleRemoveClick = (productid)=>{
+        dispatch(removeFromWishlist({id : productid}));
+        toast.success("Removed from wishlist")
+    }
+    console.log(wishlist)
   return (
     <>
-        <Container>
+       <Container>
             <Navbar />
             <Announcement/>
             <Wrapper>
-                <Title> Compare Products </Title>
+                <Title> Wishlist Products </Title>
                 <Info>
-            {compare.products.map((product,index) => (
+            {wishlist.products.map((product,index) => (
               <Product key={index}>
                 <ProductDetail>
                   <Image src={product.img} />
@@ -197,8 +205,9 @@ const CompareProduct = () => {
           </Info>
             </Wrapper>
         </Container>
+    
     </>
   )
 }
 
-export default CompareProduct
+export default Wishlist

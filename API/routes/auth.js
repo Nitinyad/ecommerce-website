@@ -7,19 +7,29 @@ const jwt = require('jsonwebtoken')
 
 //REGISTER
 router.post('/register' ,async(req,res)=>{
+    const { username, email, password } = req.body;
+  
+  // Basic validation 
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
     const newUser = new User({
         username : req.body.username,
         email : req.body.email , 
         password : CryptoJS.AES.encrypt(req.body.password , process.env.PASS_SEC).toString(),
     })
 
+
     try{
         //we are using aysnc function bz savedUser take 
         const savedUser = await newUser.save();
-        // console.log(savedUser);
-        res.status(201).json(savedUser)
+        console.log(savedUser);
+
+        console.log(newUser.username)
+        res.status(201).json(savedUser) 
     }catch(e){
         console.log(e)
+
         res.status(500).json(e);
     }
 

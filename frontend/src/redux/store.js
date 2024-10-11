@@ -2,6 +2,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import cartReducer from "./cartRedux";
 import userReducer from "./userSlice";
+import compareReducer from './compareSlice'
 import {
   persistStore,
   persistReducer,
@@ -13,6 +14,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import wishlist from "./wishlist";
 
 const persistConfig = {
   key: "root",
@@ -20,7 +22,7 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({ user: userReducer, cart: cartReducer });
+const rootReducer = combineReducers({ user: userReducer, cart: cartReducer , compare : compareReducer , wish : wishlist});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

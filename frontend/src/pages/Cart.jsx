@@ -12,7 +12,7 @@ import { userRequest } from "../requestMethods";
 
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import {  removeProduct } from '../redux/cartRedux';
+import {  addProduct, removeProduct } from '../redux/cartRedux';
 import toast from "react-hot-toast";
 
 // const KEY = process.env.REACT_APP_STRIPE;
@@ -166,7 +166,9 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const quantity = useSelector((state)=> state.cart.quantity);
   const cart = useSelector((state) => state.cart);
+  const wishquantity = useSelector((state)=> state.wish.products.length)
   const [stripeToken, setStripeToken] = useState(null);
   const navigate = useNavigate()
   const dispatch = useDispatch();
@@ -205,8 +207,8 @@ const Cart = () => {
         <Top>
           <TopButton>CONTINUE SHOPPING</TopButton>
           <TopTexts>
-            <TopText>Shopping Bag(2)</TopText>
-            <TopText>Your Wishlist (0)</TopText>
+            <TopText>Shopping Bag({quantity})</TopText>
+            <TopText>Your Wishlist ({wishquantity})</TopText>
           </TopTexts>
           <TopButton type="filled">CHECKOUT NOW</TopButton>
         </Top>

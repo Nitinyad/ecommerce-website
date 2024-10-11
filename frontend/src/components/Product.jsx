@@ -9,6 +9,8 @@ import { addProduct } from "../redux/cartRedux";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { publicRequest } from "../requestMethods";
+import { addToWishlist } from "../redux/wishlist";
+import toast from "react-hot-toast";
   
   const Info = styled.div`
     opacity: 0;
@@ -103,6 +105,12 @@ import { publicRequest } from "../requestMethods";
   const handleSearch = () =>{
     console.log(item.title)
   }
+  console.log(item._id)
+  const handleWishlist =() =>{
+    const payload = {...item}
+    dispatch(addToWishlist(payload))
+    toast.success("Added to wishlist")
+  }
   
     return (
       <Container>
@@ -120,7 +128,7 @@ import { publicRequest } from "../requestMethods";
             </Link>
           </Icon>
           <Icon>
-            <Link >
+            <Link onClick={() => handleWishlist(item)}>
             <FavoriteBorderOutlined />
             </Link>
           </Icon>

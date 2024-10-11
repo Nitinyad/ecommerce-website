@@ -28,42 +28,6 @@ const cartSlice = createSlice({
 
       console.log("State after adding product:", state);
     },
-    addToCompare: (state, action) => {
-      console.log("State before adding product:", state);
-      console.log("Action payload:", action.payload);
-
-      if (!Array.isArray(state.products)) {
-        console.error("Products array is not initialized correctly.");
-        state.products = [];
-      }
-      const updatedProducts = [...state.products, action.payload];
-
-  // Return the new state with the updated products array
-  return {
-    ...state,
-    products: updatedProducts,
-  };
-
-      // console.log("State after adding product:", state);
-    },
-    removeCompare:(state , action) =>{
-      console.log("State before removing product:", state);
-  console.log("Action payload:", action.payload);
-
-  if (!Array.isArray(state.products)) {
-    console.error("Products array is not initialized correctly.");
-    state.products = [];
-  }
-
-  const updatedProducts = state.products.filter(product => product.id !== action.payload.id);
-  console.log("State after removing product:", { ...state, products: updatedProducts });
-
-  return {
-    ...state,
-    products  : updatedProducts,
-  };
-  
-    },
     removeProduct: (state, action) => {
       const index = state.products.findIndex(
         product => product.id === action.payload.id && product.color === action.payload.color && product.size === action.payload.size
@@ -76,10 +40,9 @@ const cartSlice = createSlice({
         state.products.splice(index,1);
       }
       console.log("Updated state products:", state.products);
-      
     },
   },
 });
 
-export const { addProduct , removeProduct , addToCompare , removeCompare} = cartSlice.actions;
+export const { addProduct , removeProduct} = cartSlice.actions;
 export default cartSlice.reducer;

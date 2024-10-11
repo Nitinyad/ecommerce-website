@@ -1,18 +1,22 @@
-// import { Container } from '@material-ui/core';
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import Navbar from '../components/Navbar';
-import Announcement from "../components/Announcement";
+import Navbar from '../components/Navbar'
 import styled from 'styled-components';
 import { mobile } from '../responsive';
-import { Add, Remove } from '@material-ui/icons';
-import { removeProduct } from '../redux/cartRedux';
-import {removeCompare} from '../redux/compareSlice.js';
+import Announcement from "../components/Announcement";
+import { useSelector } from 'react-redux';
+
+
 
 const Container = styled.div``;
 
 const Wrapper = styled.div`
-  padding: 20px;
+    display: flex;
+    flex-direction : column;
+    align-items : center;
+    padding: 20px;
+    width : 100%;
+    height : 400px;
+    align-content : center;
   ${mobile({ padding: "10px" })}
 `;
 
@@ -55,6 +59,9 @@ const Bottom = styled.div`
 
 const Info = styled.div`
     display: flex;
+    justify-content: center;
+    color: green;
+    border: 3px solid black;
     width : 400px;
 `;
 
@@ -67,9 +74,8 @@ const Product = styled.div`
 `;
 
 const ProductDetail = styled.div`
-  flex: 2;
-  display: flex;
-  flex-direction : column;
+    display: flex;
+    justify-content: center;
 `;
 
 const Image = styled.img`
@@ -142,63 +148,35 @@ const Button = styled.button`
 `;
 
 
-const CompareProduct = () => {
-
-    const compare = useSelector((state) => state.compare);
-    const dispatch = useDispatch();
-
-    const handleRemoveClick = (ProductId) => {
-        console.log("Dispatching removeFromCompare with product ID:", ProductId);
-        dispatch(removeCompare({id : ProductId}));
-      };
-
+const Profile = () => {
+    const user  = useSelector((state) => state.user.currentUser)
   return (
     <>
         <Container>
-            <Navbar />
+            <Navbar/>
             <Announcement/>
             <Wrapper>
-                <Title> Compare Products </Title>
-                <Info>
-            {compare.products.map((product,index) => (
-              <Product key={index}>
-                <ProductDetail>
-                  <Image src={product.img} />
-                  <Details>
-                    <ProductName>
-                      <b>Product:</b> {product.title}
-                    </ProductName>
-                    <ProductId>
-                      <b>ID:</b> {product._id}
-                    </ProductId>
-                    <ProductSize>
-                      Size: {product.size}
-                    </ProductSize>
-                    <ProductName>
-                      <b>Description:</b> {product.desc}
-                    </ProductName>
-                  <ProductName>
-                  <b>Price:</b>  $ {product.price}
-                  </ProductName>
-                  <ProductName>
-                  <b>Color:</b>  {product.color  }
-                  </ProductName>
-                  <ProductName>
-                  <b>InStock:</b>  {product.inStock ? "Yes" : "No" }
-                  </ProductName>
-                  </Details>
-                </ProductDetail>
-                <PriceDetail>
-                  <Button  onClick={() => handleRemoveClick(product.id)}>Remove</Button>
-                </PriceDetail>
-              </Product>
-            ))}
-            <Hr />
-          </Info>
+                <Title>Profile</Title>
+                <Info style={{justifyContent:'center' , alignItems:'center'}}>
+                    <ProductDetail>
+                        <Details>
+                            <ProductName>
+                                <b>UserId : </b>{user._id}
+                            </ProductName>
+                            <ProductName>
+                                <b>Username : </b>{user.username}
+                            </ProductName>
+                            <ProductName>
+                                <b>Email : </b>{user.email}
+                            </ProductName>
+                        </Details>
+                    </ProductDetail>
+                </Info>
             </Wrapper>
         </Container>
+    
     </>
   )
 }
 
-export default CompareProduct
+export default Profile

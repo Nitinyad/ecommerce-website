@@ -17,6 +17,8 @@ import Search from './pages/Search'
 import CompareProduct from "./pages/CompareProduct"
 
 import { Toaster } from 'react-hot-toast';
+import Wishlist from "./pages/Wishlist"
+import Profile from "./pages/Profile"
   //router -- routes -- route (path element navigate)
 const App = () =>{ 
   // const [user,setUser ] = useState(null);
@@ -69,7 +71,9 @@ const App = () =>{
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login/>}/>
         <Route path="/register" element={user ? <Navigate to="/"/> : <Register/>}/>
         <Route path="/search" element={<Search/>}/>
+        <Route path="/profile" element={<Profile/>}></Route>
         <Route path="/product/compare" element={<CompareProduct/>}/>
+        <Route path="/product/wishlist" element={<Wishlist/>}></Route>
       </Routes>
     </Router>
     </>

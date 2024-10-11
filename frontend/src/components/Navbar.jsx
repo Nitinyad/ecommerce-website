@@ -121,10 +121,6 @@ const Navbar = () => {
           </Link>
         </Center>
         <Right>
-          <Link to="/product/compare">
-        <Button variant="outlined" style={{fontWeight:"bolder"}}>Compare</Button>
-          
-          </Link>
           {/* <Link to="/register" style={{textDecoration:"none" , color:"black"}}>
           <MenuItems></MenuItems>
           </Link> */}
@@ -136,7 +132,15 @@ const Navbar = () => {
             <MenuButton>ACCOUNT</MenuButton>
             {user ? (
             <Menu>
+              <Link to="/profile" style={{textDecoration:"none"}}>
               <MenuItem>Profile</MenuItem>
+              </Link>
+              <Link to="/product/wishlist" style={{textDecoration:"none"}}>
+                <MenuItem>Wishlist</MenuItem>
+              </Link>
+              <Link to="/product/compare" style={{textDecoration:"none"}}>
+                <MenuItem >Compare</MenuItem>
+              </Link>
                <MenuItem style={{textDecoration:"none" ,width:"100%" ,display:"flex" , alignItems:"center" , justifyContent:"center"}} onClick={logoutHandler} ><ExitToApp/>Logout</MenuItem>
             </Menu>
         ) : (<Link className='link' to='/login'> Login</Link>)}

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { register } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import { registerUser } from "../redux/userSlice";
 
 const Container = styled.div`
   width: 100vw;
@@ -66,7 +67,7 @@ const Register = () => {
   const [username , setUsername] = useState("")
   const [email , setEmail] = useState("")
   const [password , setPassword] = useState("")
-  // const { register, errors, handleSubmit } = useForm();
+  const { register, errors, handleSubmit } = useForm();
   const dispatch = useDispatch()
   const {isFetching , error } = useSelector((state) => state.user)
 
@@ -80,19 +81,47 @@ const Register = () => {
   }
 
   const handleClick = (e) =>{
-    e.preventDefault()
-    register(dispatch , {username , password , email })
+    e.preventDefault();
+    console.log(name , lastname , username , email , password)
+    register(dispatch , {username  , password , email })
 
-    // dispatch(register(data));
+    // dispatch(register({username , password , email}));
   }
+
+
+
+  //chatgpt
+
+  // const [formData, setFormData] = useState({
+  //   username: '',
+  //   email: '',
+  //   password: '',
+  // });
+
+  // const dispatch = useDispatch();
+  // const { isFetching, error } = useSelector((state) => state.user);
+
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value,
+  //   });
+  // };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   // Dispatch the registerUser action with form data
+  //   dispatch(registerUser(formData));
+  // };
   return (
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
-        <Form >
-          <Input placeholder="name" value={name} required onChange={(e) => setName(e.target.value)}/>
-          <Input placeholder="last name" value={lastname} required onChange={(e)=>setLastname(e.target.value)}/>
-          <Input placeholder="username" value={username} required onChange={(e)=>setUsername(e.target.value)}/>
+        <Form>
+          <Input placeholder="name" value={name} required onChange={(e)=> setName(e.target.value)}/>
+          <Input placeholder="last name" value={lastname} required onChange={(e)=> setLastname(e.target.value)}/>
+          <Input placeholder="username" value={username}  required onChange={(e) => setUsername(e.target.value)}/>
           <Input placeholder="email" value={email} required onChange={(e)=>setEmail(e.target.value)}/>
           <Input placeholder="password" value={password} required onChange={(e)=>setPassword(e.target.value)}/>
           <Input placeholder="confirm password" required/>
@@ -101,7 +130,7 @@ const Register = () => {
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
           <p>Already have account? <Link to='/login'>Login</Link></p>
-          <Button type="submit" onClick={handleClick} disabled={isFetching}>CREATE</Button>
+          <Button onClick={handleClick} >CREATE</Button>
         </Form>
       </Wrapper>
     </Container>

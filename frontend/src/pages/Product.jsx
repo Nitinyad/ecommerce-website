@@ -8,7 +8,8 @@ import {useLocation} from "react-router-dom"
 import { useEffect, useState } from "react";
 import { publicRequest } from "../requestMethods";
 import { useDispatch } from "react-redux";
-import { addProduct, addToCompare } from "../redux/cartRedux";
+import { addProduct } from "../redux/cartRedux";
+import {addToCompare } from "../redux/compareSlice";
 import toast from "react-hot-toast";
 // import { addItemsToCart } from "../actions/cartActions";
 
@@ -167,7 +168,7 @@ const Product = () => {
     toast.success("Added to Cart")
   };
   const handleCompare = () =>{
-    const payload = { ...product, quantity, color, size };
+    const payload = { ...product};
     console.log("Dispatching addProduct with payload:", payload);
     dispatch(addToCompare(payload));
     toast.success("Added to compare section")
